@@ -1,45 +1,81 @@
-# 🦅 QuantumPay: Sovereign Hybrid Exchange & Tax Engine
-**Official Documentation, API Reference, and Integration Guide**
+# 💎 QuantumPay Core (QTM)
+**Sovereign Layer-1 Hybrid Blockchain Infrastructure.**
 
-Selamat datang di repositori dokumentasi resmi **QuantumPay**. 
-QuantumPay adalah infrastruktur *Sovereign Hybrid Decentralized Exchange* (DEX) pertama yang menjembatani ekosistem Web3 global dengan perbankan nasional (IDR), dilengkapi dengan **Layer-1 Automatic Tax Engine** yang patuh pada regulasi Kementerian Keuangan & Bappebti Republik Indonesia.
+QuantumPay adalah infrastruktur blockchain Layer-1 berkinerja tinggi yang dibangun untuk kedaulatan digital nasional dan skalabilitas global. Menggunakan arsitektur **Hybrid-Ledger**, QuantumPay menggabungkan kecepatan penulisan data pada **PebbleDB** dengan kecanggihan analitik **CockroachDB**.
 
-## 🌟 Mengapa QuantumPay? (Visi Kedaulatan)
-Di era ekonomi digital, kepatuhan pajak dan keamanan fiat adalah tantangan terbesar bagi bursa kripto. QuantumPay memecahkan masalah ini dengan arsitektur L1 khusus yang melakukan 3 hal secara **atomik (dalam satu detik)**:
-1. **Eksekusi Penukaran Aset (Swap):** QRC-20 ke Fiat (IDR/EUR/USD) atau EVM Kripto (USDT/USDC).
-2. **Pemotongan Pajak Otomatis (Tax Engine):** Pemotongan PPN & PPh secara *real-time* yang langsung dicatat permanen ke dalam *Treasury Ledger* (Kas Negara).
-3. **Penyelesaian Instan (Instant Settlement):** Pencairan dana fiat langsung ke rekening bank lokal pengguna (via jaringan BI-FAST / Sistem Pembayaran Nasional).
+## 🌐 Network Identity (SSoT)
+Parameter ini mendefinisikan status resmi jaringan saat ini (Single Source of Truth):
+
+| Parameter | Value |
+| :--- | :--- |
+| **Chain ID** | `77077` [FROZEN] |
+| **Genesis Fingerprint** | `0x3e850ed3cce6d7ae604fcd11f5aff6983f4a620dcb48f03082a0259bdb499012` |
+| **State Root** | `3e850ed3cce6d7ae604fcd11f5aff6983f4a620dcb48f03082a0259bdb499012` |
+| **Core Engine** | `Go-Lang (quantumpay-go-v1.1)` |
+| **Network Phase** | `Mainnet-Alpha v2.0 (Hybrid Active)` |
+
+---
+
+## 🏗️ Arsitektur Hybrid (Pebble + SQL)
+Berbeda dengan blockchain tradisional, QuantumPay memisahkan jalur data untuk efisiensi maksimal:
+1.  **Write Layer (PebbleDB):** Menangani konsensus dan finalitas blok instan (< 5 detik) dengan penggunaan RAM yang sangat hemat (~5%).
+2.  **Read Layer (CockroachDB):** Menyediakan layer analitik SQL untuk Explorer, Wallet, dan Exchange tanpa membebani performa node utama.
+
+---
+
+## ⚡ Technical Features
+* **High Efficiency:** Dioptimalkan untuk berjalan pada hardware standar dengan konsumsi RAM minimal (~24.7MB per node).
+* **Fast Finality:** Konfirmasi transaksi instan di bawah 5 detik.
+* **Process Management:** Mendukung **PM2** untuk uptime 24/7 dan pemantauan bridge database secara real-time.
+
+---
+
+## 🛠️ Run a Node (Join the Decentralization)
+
+### Hardware Requirements
+* **CPU:** 2 Cores (Minimum)
+* **RAM:** 4GB (Optimized usage: ~5%)
+* **Storage:** 40GB SSD
+* **OS:** Ubuntu 22.04 LTS / 24.04 LTS
+
+### Installation
+1.  **Clone the Repository**
+    ```bash
+    git clone [https://github.com/irlan7/quantumpay-go.git](https://github.com/irlan7/quantumpay-go.git)
+    cd quantumpay-go
+    ```
+2.  **Build the Node**
+    ```bash
+    go build -o qtm-core ./cmd/node
+    ```
+3.  **Start with PM2**
+    ```bash
+    pm2 start ./qtm-core --name "qp-node"
+    ```
+
+### Genesis Verification
+Pastikan node Anda memiliki Fingerprint yang valid:
+```bash
+pm2 logs qp-node --lines 100 | grep "GENESIS FINGERPRINT"
 
 
-## 🏛️ Arsitektur Sistem (High-Level)
-Sistem kami memisahkan antara mesin konsensus tingkat militer (Private Core) dengan antarmuka yang transparan untuk publik.
+Expected: 0x3e850ed3cce6d7ae604fcd11f5aff6983f4a620dcb48f03082a0259bdb499012
 
+🏛️ Official Genesis Allocations
+Founder (Irlan): 0x6d047da4f3AB9Dda7647D8ff901f65DDa6597040
 
-* **QTM Sovereign L1:** Mesin inti yang memproses *state mutation* dan memotong *Platform Fee* serta *State Tax*.
-* **Bifröst EVM Bridge:** Jembatan likuiditas asinkron yang terhubung ke jaringan Ethereum & Binance Smart Chain (BSC).
-* **Fiat Gateway:** Protokol *Disbursement* yang terhubung dengan standar perbankan (Xendit/Instamoney) untuk pencairan Rupiah ke jaringan BI-FAST.
-* **CockroachDB Treasury:** Buku besar (*ledger*) anti-retas untuk pencatatan pajak kenegaraan.
+Legacy V1 : 0xB766497a96d061887CeC4aAaCFBA25676a749061
 
+Legacy V2: 0x1c83F44cca36cb423E30940571cFc81b0fEC9A81
 
-## 🔌 API Reference (Kontrak Integrasi Developer)
-*Catatan: Dokumen lengkap tersedia di portal Swagger/Postman API kami.*
+📡 Official Channels
+Website: quantumpaychain.org
 
-Bagi *merchant* atau bursa pihak ketiga yang ingin menggunakan mesin L1 QuantumPay, berikut adalah *endpoint* publik kami:
+X (Twitter): @quantumpaychain
 
-### 1. `POST /api/v1/swap/quote` (Fase Kalkulasi)
-Digunakan untuk mengecek kurs *real-time* (Oracle) dan simulasi potongan pajak sebelum eksekusi.
-* **Input:** `user_wallet`, `target_asset`, `swap_amount`
-* **Output:** Estimasi PPN, PPh, Fee Platform, dan Total Aset Diterima.
+Email: quantumpaysec@gmail.com
 
-### 2. `POST /api/v1/swap/commit` (Fase Eksekusi)
-Memicu mesin konsensus L1 untuk memotong saldo kripto, mencatat ke *Database* Kemenkeu, dan menembakkan instruksi transfer BI-FAST dunia nyata.
-* **Input:** `quote_id`, `user_wallet`, `target_asset`, `amount`
-* **Output:** `tx_hash` (L1 Hash) dan `evm_hash` / `fiat_ref` (Bukti Transfer Bank).
+📜 License & Vision
+Proyek ini bersifat open-source di bawah MIT License. Kami mengikuti visi Satoshi Nakamoto dan Vitalik Buterin: membangun dunia yang trustless, transparan, dan permissionless di mana setiap individu dapat menjalankan node dan memverifikasi kebenaran secara mandiri.
 
-
-## 🔐 Transparansi & Kepatuhan (Compliance)
-* **Smart Contract Address:** (Segera Dirilis)
-* **Treasury Audit Dashboard:** Akses khusus disediakan untuk lembaga negara (Kemenkeu/OJK) untuk memantau pergerakan pajak secara *real-time*.
-* **KYC/AML:** Seluruh pengguna wajib melewati gerbang *Know Your Customer* tingkat 3 yang diamankan dengan standar ISO 27001 dan UU PDP.
-
-**QuantumPay © 2026. Merajut Kedaulatan Digital Nusantara.**
+Copyright © 2026 QuantumPay - All Rights Reserved.
