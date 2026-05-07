@@ -1,81 +1,76 @@
-# 💎 QuantumPay Core (QTM)
-**Sovereign Layer-1 Hybrid Blockchain Infrastructure.**
+# 🌌 QuantumPay Official Documentation (QTM)
+**The Sovereign Post-Quantum Layer-1 Blockchain for the Global Economy.**
 
-QuantumPay adalah infrastruktur blockchain Layer-1 berkinerja tinggi yang dibangun untuk kedaulatan digital nasional dan skalabilitas global. Menggunakan arsitektur **Hybrid-Ledger**, QuantumPay menggabungkan kecepatan penulisan data pada **PebbleDB** dengan kecanggihan analitik **CockroachDB**.
+[![QuantumPay Mainnet](https://img.shields.io/badge/Network-Mainnet_Live-success?style=for-the-badge)](#)
+[![Version](https://img.shields.io/badge/Release-v1.0.0--core-orange?style=for-the-badge)](https://github.com/irlan7/quantumpay-docs/releases/tag/v1.0.0-core)
+[![Post-Quantum](https://img.shields.io/badge/Security-Kyber1024_%2B_Dilithium3-purple?style=for-the-badge)](#)
+[![License](https://img.shields.io/badge/License-MIT-gray?style=for-the-badge)](#)
 
-## 🌐 Network Identity (SSoT)
-Parameter ini mendefinisikan status resmi jaringan saat ini (Single Source of Truth):
+QuantumPay adalah infrastruktur blockchain L1 pertama dari Asia Tenggara yang dirancang khusus untuk mengamankan **Aset Dunia Nyata (RWA)** dan kedaulatan digital nasional. Menggunakan arsitektur hibrida mutakhir (**Go, Rust, dan Solidity**), QuantumPay siap menyerap likuiditas global melalui *Omnichain Gateway*.
+
+---
+
+## 🌐 Network Identity (Single Source of Truth)
+Parameter resmi jaringan untuk verifikasi sinkronisasi L1:
 
 | Parameter | Value |
 | :--- | :--- |
 | **Chain ID** | `77077` [FROZEN] |
-| **Genesis Fingerprint** | `0x3e850ed3cce6d7ae604fcd11f5aff6983f4a620dcb48f03082a0259bdb499012` |
-| **State Root** | `3e850ed3cce6d7ae604fcd11f5aff6983f4a620dcb48f03082a0259bdb499012` |
-| **Core Engine** | `Go-Lang (quantumpay-go-v1.1)` |
-| **Network Phase** | `Mainnet-Alpha v2.0 (Hybrid Active)` |
+| **Genesis Fingerprint** | `0x1d58599424f1159828236111f1f9e83063f66345091a99540c4989679269491a` |
+| **State Root** | `0x1d58599424f1159828236111f1f9e83063f66345091a99540c4989679269491a` |
+| **Network Phase** | `Mainnet-Alpha v2.0 (GEN 4.5 ACTIVE)` |
+| **Binary Release** | `v1.0.0-core (Linux AMD64)` |
 
 ---
 
-## 🏗️ Arsitektur Hybrid (Pebble + SQL)
-Berbeda dengan blockchain tradisional, QuantumPay memisahkan jalur data untuk efisiensi maksimal:
-1.  **Write Layer (PebbleDB):** Menangani konsensus dan finalitas blok instan (< 5 detik) dengan penggunaan RAM yang sangat hemat (~5%).
-2.  **Read Layer (CockroachDB):** Menyediakan layer analitik SQL untuk Explorer, Wallet, dan Exchange tanpa membebani performa node utama.
+## 🛠️ Run a Validator Node (Quickstart v1.0.0)
 
----
+Kami merekomendasikan penggunaan *binary executable* resmi untuk menjamin integritas konsensus dan performa maksimal. Jaringan saat ini dibatasi maksimal **100 Validator Global**.
 
-## ⚡ Technical Features
-* **High Efficiency:** Dioptimalkan untuk berjalan pada hardware standar dengan konsumsi RAM minimal (~24.7MB per node).
-* **Fast Finality:** Konfirmasi transaksi instan di bawah 5 detik.
-* **Process Management:** Mendukung **PM2** untuk uptime 24/7 dan pemantauan bridge database secara real-time.
-
----
-
-## 🛠️ Run a Node (Join the Decentralization)
-
-### Hardware Requirements
-* **CPU:** 2 Cores (Minimum)
+### 1. Persyaratan Perangkat Keras (Minimum)
+* **CPU:** 2 Cores (Intel/AMD)
 * **RAM:** 4GB (Optimized usage: ~5%)
-* **Storage:** 40GB SSD
 * **OS:** Ubuntu 22.04 LTS / 24.04 LTS
 
-### Installation
-1.  **Clone the Repository**
-    ```bash
-    git clone [https://github.com/irlan7/quantumpay-go.git](https://github.com/irlan7/quantumpay-go.git)
-    cd quantumpay-go
-    ```
-2.  **Build the Node**
-    ```bash
-    go build -o qtm-core ./cmd/node
-    ```
-3.  **Start with PM2**
-    ```bash
-    pm2 start ./qtm-core --name "qp-node"
-    ```
+### 2. Langkah Instalasi (Binary Method)
+Unduh paket mesin L1 QuantumPay langsung dari rilis resmi:
 
-### Genesis Verification
-Pastikan node Anda memiliki Fingerprint yang valid:
 ```bash
-pm2 logs qp-node --lines 100 | grep "GENESIS FINGERPRINT"
+# 1. Unduh Binary Tarball
+wget [https://github.com/irlan7/quantumpay-docs/releases/download/v1.0.0-core/qtm-validator-linux-amd64.tar.gz](https://github.com/irlan7/quantumpay-docs/releases/download/v1.0.0-core/qtm-validator-linux-amd64.tar.gz)
 
+# 2. Ekstrak Peti Kemas
+tar -xvzf qtm-validator-linux-amd64.tar.gz
 
-Expected: 0x3e850ed3cce6d7ae604fcd11f5aff6983f4a620dcb48f03082a0259bdb499012
+# 3. Masuk ke direktori
+cd qtm-validator
 
-🏛️ Official Genesis Allocations
-Founder (Irlan): 0x6d047da4f3AB9Dda7647D8ff901f65DDa6597040
+# 4. Konfigurasi & Jalankan Mesin
+./start-validator.sh
+3. Verifikasi Keaslian Genesis
+Gunakan perintah ini untuk memastikan Node Anda terhubung ke rantai (Gen 4.5) yang sah:
 
-Legacy V1 : 0xB766497a96d061887CeC4aAaCFBA25676a749061
+Bash
+pm2 logs qp-node --lines 100 | grep "Genesis Block Created"
+# Expected: 0x1d58599424f1159828236111f1f9e83063f66345091a99540c4989679269491a
+🏗️ Hybrid Architecture & Ecosystem
+Core Ledger: Arsitektur ganda menggunakan efisiensi PebbleDB dan analitik SQL tingkat lanjut dari CockroachDB.
 
-Legacy V2: 0x1c83F44cca36cb423E30940571cFc81b0fEC9A81
+Smart Contracts: Kompatibilitas penuh dengan EVM (Solidity) untuk penerbitan token QRC-20.
 
-📡 Official Channels
-Website: quantumpaychain.org
+Omnichain Gateway: Mendukung aset institusional termasuk BTC, ETH, SOL, XRP, USDT, USDC, dan XLM.
 
-X (Twitter): @quantumpaychain
+🏦 Institutional & Exchange Partners
+QuantumPay didukung oleh entitas hukum resmi di Indonesia (PT) dan dirancang untuk kepatuhan Bappebti.
 
-Email: quantumpaysec@gmail.com
+API/RPC Integration: Silakan merujuk pada direktori rpc/ untuk dokumentasi endpoint bursa.
 
-📜 License & Vision
-Proyek ini bersifat open-source di bawah MIT License. Kami mengikuti visi Satoshi Nakamoto dan Vitalik Buterin: membangun dunia yang trustless, transparan, dan permissionless di mana setiap individu dapat menjalankan node dan memverifikasi kebenaran secara mandiri.
+QuantumPay Foundation | Bridging Institutional Finance and Web3 Liquidity.
 
-Copyright © 2026 QuantumPay - All Rights Reserved.
+🌐 Website: quantumpaychain.org
+
+📧 Contact: contact@quantumpaychain.org (Partnership & VC)
+
+𝕏 Twitter: @quantumpaychain
+
+Copyright © 2026 QuantumPay Network. All Rights Reserved.
